@@ -67,16 +67,6 @@ class ExamPresenter @Inject constructor(
         }
     }
 
-    fun onViewReselected() {
-        Timber.i("Exam view is reselected")
-        baseDate.also {
-            if (currentDate != it) {
-                loadData(it)
-                reloadView()
-            } else if (view?.isViewEmpty == false) view?.resetView()
-        }
-    }
-
     private fun setBaseDateOnHolidays() {
         disposable.add(studentRepository.getCurrentStudent()
             .flatMap { semesterRepository.getCurrentSemester(it) }

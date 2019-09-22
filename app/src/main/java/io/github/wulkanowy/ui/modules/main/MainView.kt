@@ -24,16 +24,9 @@ interface MainView : BaseView {
 
     fun showActionBarElevation(show: Boolean)
 
-    fun notifyMenuViewReselected()
-
     fun setViewTitle(title: String)
 
     fun popView(depth: Int = 1)
-
-    interface MainChildView {
-
-        fun onFragmentReselected()
-    }
 
     interface TitledView {
 
@@ -45,7 +38,6 @@ interface MainView : BaseView {
         ATTENDANCE(1),
         EXAM(2),
         TIMETABLE(3),
-        MORE(4),
         MESSAGE(5),
         HOMEWORK(6),
         NOTE(7),

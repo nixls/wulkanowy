@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -29,7 +28,6 @@ import io.github.wulkanowy.ui.modules.homework.HomeworkFragment
 import io.github.wulkanowy.ui.modules.luckynumber.LuckyNumberFragment
 import io.github.wulkanowy.ui.modules.message.MessageFragment
 import io.github.wulkanowy.ui.modules.mobiledevice.MobileDeviceFragment
-import io.github.wulkanowy.ui.modules.more.MoreFragment
 import io.github.wulkanowy.ui.modules.note.NoteFragment
 import io.github.wulkanowy.ui.modules.settings.SettingsFragment
 import io.github.wulkanowy.ui.modules.timetable.TimetableFragment
@@ -114,24 +112,26 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
         mainNavigationView.setCheckedItem(R.id.drawerMenuGrade)
 
         mainNavigationView.setNavigationItemSelectedListener {
-            mainDrawer.closeDrawer(GravityCompat.START)
-            when (it.itemId) {
-                R.id.drawerMenuGrade -> presenter.onTabSelected(0, false)
-                R.id.drawerMenuAttendance -> presenter.onTabSelected(1, false)
-                else -> false
-            }
+            presenter.onDrawerMenuSelected(when (it.itemId) {
+                R.id.drawerMenuGrade -> 0
+                R.id.drawerMenuAttendance -> 1
+                R.id.drawerMenuExam -> 2
+                R.id.drawerMenuTimetable -> 3
+                R.id.drawerMenuMessage -> 4
+                R.id.drawerMenuHomework -> 5
+                R.id.drawerMenuNote -> 6
+                R.id.drawerMenuLuckyNumber -> 7
+                R.id.drawerMenuMobileDevices -> 8
+                R.id.drawerMenuSettings -> 9
+                R.id.drawerMenuAbout -> 10
+                else -> 0
+            })
         }
 
         with(navController) {
             setOnViewChangeListener(presenter::onViewChange)
             fragmentHideStrategy = HIDE
-            rootFragments = listOf(
-                GradeFragment.newInstance(),
-                AttendanceFragment.newInstance(),
-                ExamFragment.newInstance(),
-                TimetableFragment.newInstance(),
-                MoreFragment.newInstance()
-            )
+            rootFragmentListener = this@MainActivity
         }
     }
 
@@ -179,10 +179,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
 
     override fun showActionBarElevation(show: Boolean) {
         ViewCompat.setElevation(mainToolbar, if (show) dpToPx(4f) else 0f)
-    }
-
-    override fun notifyMenuViewReselected() {
-        (navController.currentStack?.getOrNull(0) as? MainView.MainChildView)?.onFragmentReselected()
     }
 
     fun showDialogFragment(dialog: DialogFragment) {

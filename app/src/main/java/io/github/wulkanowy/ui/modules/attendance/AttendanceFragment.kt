@@ -22,8 +22,7 @@ import io.github.wulkanowy.utils.setOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_attendance.*
 import javax.inject.Inject
 
-class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildView,
-    MainView.TitledView {
+class AttendanceFragment : BaseFragment(), AttendanceView, MainView.TitledView {
 
     @Inject
     lateinit var presenter: AttendancePresenter
@@ -99,10 +98,6 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
 
     override fun resetView() {
         attendanceRecycler.smoothScrollToPosition(0)
-    }
-
-    override fun onFragmentReselected() {
-        if (::presenter.isInitialized) presenter.onViewReselected()
     }
 
     override fun popView() {

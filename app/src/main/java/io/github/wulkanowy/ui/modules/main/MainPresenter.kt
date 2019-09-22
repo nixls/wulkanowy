@@ -67,17 +67,10 @@ class MainPresenter @Inject constructor(
         }
     }
 
-    fun onTabSelected(index: Int, wasSelected: Boolean): Boolean {
-        return view?.run {
-            Timber.i("Switch main tab index: $index, reselected: $wasSelected")
-            if (wasSelected) {
-                notifyMenuViewReselected()
-                false
-            } else {
-                switchMenuView(index)
-                true
-            }
-        } == true
+    fun onDrawerMenuSelected(index: Int): Boolean {
+        Timber.i("Switch menu drawer index: $index")
+        view?.switchMenuView(index)
+        return true
     }
 
     private fun getProperViewIndexes(initMenu: MainView.Section?): Pair<Int, Int> {

@@ -61,20 +61,6 @@ class AttendancePresenter @Inject constructor(
         loadData(currentDate, true)
     }
 
-    fun onViewReselected() {
-        Timber.i("Attendance view is reselected")
-        view?.also { view ->
-            if (view.currentStackSize == 1) {
-                baseDate.also {
-                    if (currentDate != it) {
-                        loadData(it)
-                        reloadView()
-                    } else if (!view.isViewEmpty) view.resetView()
-                }
-            } else view.popView()
-        }
-    }
-
     fun onAttendanceItemSelected(item: AbstractFlexibleItem<*>?) {
         if (item is AttendanceItem) {
             Timber.i("Select attendance item ${item.attendance.id}")

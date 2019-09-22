@@ -9,7 +9,6 @@ import io.github.wulkanowy.ui.modules.homework.HomeworkFragment
 import io.github.wulkanowy.ui.modules.luckynumber.LuckyNumberFragment
 import io.github.wulkanowy.ui.modules.main.MainView
 import io.github.wulkanowy.ui.modules.message.MessageFragment
-import io.github.wulkanowy.ui.modules.more.MoreFragment
 import io.github.wulkanowy.ui.modules.note.NoteFragment
 import io.github.wulkanowy.ui.modules.settings.SettingsFragment
 import io.github.wulkanowy.ui.modules.timetable.TimetableFragment
@@ -20,7 +19,6 @@ fun Fragment.toSection(): MainView.Section? {
         is AttendanceFragment -> MainView.Section.ATTENDANCE
         is ExamFragment -> MainView.Section.EXAM
         is TimetableFragment -> MainView.Section.TIMETABLE
-        is MoreFragment -> MainView.Section.MORE
         is MessageFragment -> MainView.Section.MESSAGE
         is HomeworkFragment -> MainView.Section.HOMEWORK
         is NoteFragment -> MainView.Section.NOTE

@@ -22,8 +22,7 @@ import io.github.wulkanowy.utils.setOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_timetable.*
 import javax.inject.Inject
 
-class TimetableFragment : BaseFragment(), TimetableView, MainView.MainChildView,
-    MainView.TitledView {
+class TimetableFragment : BaseFragment(), TimetableView, MainView.TitledView {
 
     @Inject
     lateinit var presenter: TimetablePresenter
@@ -106,10 +105,6 @@ class TimetableFragment : BaseFragment(), TimetableView, MainView.MainChildView,
 
     override fun resetView() {
         timetableRecycler.smoothScrollToPosition(0)
-    }
-
-    override fun onFragmentReselected() {
-        if (::presenter.isInitialized) presenter.onViewReselected()
     }
 
     override fun popView() {
