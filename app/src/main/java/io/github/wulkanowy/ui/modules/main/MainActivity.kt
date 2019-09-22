@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -64,6 +65,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
     override val numberOfRootFragments get() = 11
 
     override val isRootView get() = navController.isRootFragment
+
+    override val isDrawerOpened get() = mainDrawer.isDrawerOpen(GravityCompat.START)
 
     override val currentStackSize get() = navController.currentStack?.size
 
@@ -184,6 +187,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
 
     fun showDialogFragment(dialog: DialogFragment) {
         navController.showDialogFragment(dialog)
+    }
+
+    override fun closeDrawer() {
+        mainDrawer.closeDrawer(GravityCompat.START)
     }
 
     fun pushView(fragment: Fragment) {

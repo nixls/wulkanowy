@@ -10,6 +10,8 @@ interface MainView : BaseView {
 
     val isRootView: Boolean
 
+    val isDrawerOpened: Boolean
+
     val currentViewTitle: String?
 
     val currentStackSize: Int?
@@ -25,6 +27,8 @@ interface MainView : BaseView {
     fun showActionBarElevation(show: Boolean)
 
     fun setViewTitle(title: String)
+
+    fun closeDrawer()
 
     fun popView(depth: Int = 1)
 

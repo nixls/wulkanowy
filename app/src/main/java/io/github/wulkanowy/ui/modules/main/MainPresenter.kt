@@ -62,14 +62,20 @@ class MainPresenter @Inject constructor(
     fun onBackPressed(default: () -> Unit) {
         Timber.i("Back pressed in main view")
         view?.run {
-            if (isRootView) default()
-            else popView()
+            when {
+                isDrawerOpened -> closeDrawer()
+                isRootView -> default()
+                else -> popView()
+            }
         }
     }
 
     fun onDrawerMenuSelected(index: Int): Boolean {
         Timber.i("Switch menu drawer index: $index")
-        view?.switchMenuView(index)
+        view?.run {
+            switchMenuView(index)
+            closeDrawer()
+        }
         return true
     }
 
