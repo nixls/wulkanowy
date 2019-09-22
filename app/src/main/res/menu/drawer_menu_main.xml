@@ -21,7 +21,7 @@
         <item
             android:id="@+id/drawerMenuMessage"
             android:icon="@drawable/ic_more_messages"
-            android:title="@string/grade_title" />
+            android:title="@string/message_title" />
         <item
             android:id="@+id/drawerMenuHomework"
             android:icon="@drawable/ic_more_homework"

@@ -105,27 +105,28 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
             setBackgroundColor(overlayProvider.get().getSurfaceColorWithOverlayIfNeeded(dpToPx(4f)))
         }
 
-        val toggle = ActionBarDrawerToggle(this, mainDrawer, mainToolbar, android.R.string.ok, android.R.string.no)
+        val toggle = ActionBarDrawerToggle(this, mainDrawer, mainToolbar, R.string.main_open_drawer, R.string.main_close_drawer)
         mainDrawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        mainNavigationView.setCheckedItem(R.id.drawerMenuGrade)
-
-        mainNavigationView.setNavigationItemSelectedListener {
-            presenter.onDrawerMenuSelected(when (it.itemId) {
-                R.id.drawerMenuGrade -> 0
-                R.id.drawerMenuAttendance -> 1
-                R.id.drawerMenuExam -> 2
-                R.id.drawerMenuTimetable -> 3
-                R.id.drawerMenuMessage -> 4
-                R.id.drawerMenuHomework -> 5
-                R.id.drawerMenuNote -> 6
-                R.id.drawerMenuLuckyNumber -> 7
-                R.id.drawerMenuMobileDevices -> 8
-                R.id.drawerMenuSettings -> 9
-                R.id.drawerMenuAbout -> 10
-                else -> 0
-            })
+        with(mainNavigationView) {
+            setCheckedItem(R.id.drawerMenuGrade)
+            setNavigationItemSelectedListener {
+                presenter.onDrawerMenuSelected(when (it.itemId) {
+                    R.id.drawerMenuGrade -> 0
+                    R.id.drawerMenuAttendance -> 1
+                    R.id.drawerMenuExam -> 2
+                    R.id.drawerMenuTimetable -> 3
+                    R.id.drawerMenuMessage -> 4
+                    R.id.drawerMenuHomework -> 5
+                    R.id.drawerMenuNote -> 6
+                    R.id.drawerMenuLuckyNumber -> 7
+                    R.id.drawerMenuMobileDevices -> 8
+                    R.id.drawerMenuSettings -> 9
+                    R.id.drawerMenuAbout -> 10
+                    else -> 0
+                })
+            }
         }
 
         with(navController) {
