@@ -9,18 +9,18 @@ import android.os.Build.VERSION_CODES.LOLLIPOP
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.graphics.ColorUtils
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation.TitleState.ALWAYS_SHOW
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import com.google.android.material.elevation.ElevationOverlayProvider
 import com.ncapdevi.fragnav.FragNavController
 import com.ncapdevi.fragnav.FragNavController.Companion.HIDE
 import dagger.Lazy
 import io.github.wulkanowy.R
 import io.github.wulkanowy.ui.base.BaseActivity
+import io.github.wulkanowy.ui.modules.about.AboutFragment
 import io.github.wulkanowy.ui.modules.account.AccountDialog
 import io.github.wulkanowy.ui.modules.attendance.AttendanceFragment
 import io.github.wulkanowy.ui.modules.exam.ExamFragment
@@ -28,17 +28,19 @@ import io.github.wulkanowy.ui.modules.grade.GradeFragment
 import io.github.wulkanowy.ui.modules.homework.HomeworkFragment
 import io.github.wulkanowy.ui.modules.luckynumber.LuckyNumberFragment
 import io.github.wulkanowy.ui.modules.message.MessageFragment
+import io.github.wulkanowy.ui.modules.mobiledevice.MobileDeviceFragment
 import io.github.wulkanowy.ui.modules.more.MoreFragment
 import io.github.wulkanowy.ui.modules.note.NoteFragment
+import io.github.wulkanowy.ui.modules.settings.SettingsFragment
 import io.github.wulkanowy.ui.modules.timetable.TimetableFragment
 import io.github.wulkanowy.utils.dpToPx
-import io.github.wulkanowy.utils.getThemeAttrColor
 import io.github.wulkanowy.utils.safelyPopFragments
 import io.github.wulkanowy.utils.setOnViewChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : BaseActivity<MainPresenter>(), MainView {
+class MainActivity : BaseActivity<MainPresenter>(), MainView,
+    FragNavController.RootFragmentListener {
 
     @Inject
     override lateinit var presenter: MainPresenter
@@ -60,6 +62,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
                 }
         }
     }
+
+    override val numberOfRootFragments get() = 11
 
     override val isRootView get() = navController.isRootFragment
 
@@ -103,22 +107,19 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
             setBackgroundColor(overlayProvider.get().getSurfaceColorWithOverlayIfNeeded(dpToPx(4f)))
         }
 
-        with(mainBottomNav) {
-            addItems(listOf(
-                AHBottomNavigationItem(R.string.grade_title, R.drawable.ic_main_grade, 0),
-                AHBottomNavigationItem(R.string.attendance_title, R.drawable.ic_main_attendance, 0),
-                AHBottomNavigationItem(R.string.exam_title, R.drawable.ic_main_exam, 0),
-                AHBottomNavigationItem(R.string.timetable_title, R.drawable.ic_main_timetable, 0),
-                AHBottomNavigationItem(R.string.more_title, R.drawable.ic_main_more, 0)
-            ))
-            accentColor = getThemeAttrColor(R.attr.colorPrimary)
-            inactiveColor = ColorUtils.setAlphaComponent(getThemeAttrColor(R.attr.colorOnSurface), 153)
-            defaultBackgroundColor = overlayProvider.get().getSurfaceColorWithOverlayIfNeeded(dpToPx(8f))
-            titleState = ALWAYS_SHOW
-            currentItem = startMenuIndex
-            isBehaviorTranslationEnabled = false
-            setTitleTextSizeInSp(10f, 10f)
-            setOnTabSelectedListener(presenter::onTabSelected)
+        val toggle = ActionBarDrawerToggle(this, mainDrawer, mainToolbar, android.R.string.ok, android.R.string.no)
+        mainDrawer.addDrawerListener(toggle)
+        toggle.syncState()
+
+        mainNavigationView.setCheckedItem(R.id.drawerMenuGrade)
+
+        mainNavigationView.setNavigationItemSelectedListener {
+            mainDrawer.closeDrawer(GravityCompat.START)
+            when (it.itemId) {
+                R.id.drawerMenuGrade -> presenter.onTabSelected(0, false)
+                R.id.drawerMenuAttendance -> presenter.onTabSelected(1, false)
+                else -> false
+            }
         }
 
         with(navController) {
@@ -131,6 +132,23 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView {
                 TimetableFragment.newInstance(),
                 MoreFragment.newInstance()
             )
+        }
+    }
+
+    override fun getRootFragment(index: Int): Fragment {
+        return when (index) {
+            0 -> GradeFragment.newInstance()
+            1 -> AttendanceFragment.newInstance()
+            2 -> ExamFragment.newInstance()
+            3 -> TimetableFragment.newInstance()
+            4 -> MessageFragment.newInstance()
+            5 -> HomeworkFragment.newInstance()
+            6 -> NoteFragment.newInstance()
+            7 -> LuckyNumberFragment.newInstance()
+            8 -> MobileDeviceFragment.newInstance()
+            9 -> SettingsFragment.newInstance()
+            10 -> AboutFragment.newInstance()
+            else -> throw IllegalAccessException()
         }
     }
 
