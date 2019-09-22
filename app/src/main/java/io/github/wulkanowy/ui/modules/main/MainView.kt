@@ -12,13 +12,9 @@ interface MainView : BaseView {
 
     val currentViewTitle: String?
 
-    val currentStackSize: Int?
-
     fun initView()
 
     fun switchMenuView(position: Int)
-
-    fun showHomeArrow(show: Boolean)
 
     fun showAccountPicker()
 

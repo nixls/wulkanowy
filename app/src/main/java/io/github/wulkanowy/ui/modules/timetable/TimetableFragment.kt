@@ -41,8 +41,6 @@ class TimetableFragment : BaseFragment(), TimetableView, MainView.TitledView {
 
     override val isViewEmpty get() = timetableAdapter.isEmpty
 
-    override val currentStackSize get() = (activity as? MainActivity)?.currentStackSize
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

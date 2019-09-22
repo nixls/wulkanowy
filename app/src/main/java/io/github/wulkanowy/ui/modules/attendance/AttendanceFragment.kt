@@ -39,8 +39,6 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.TitledView {
 
     override val isViewEmpty get() = attendanceAdapter.isEmpty
 
-    override val currentStackSize get() = (activity as? MainActivity)?.currentStackSize
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)

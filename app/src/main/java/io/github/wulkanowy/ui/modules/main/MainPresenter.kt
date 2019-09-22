@@ -36,22 +36,12 @@ class MainPresenter @Inject constructor(
         view?.apply {
             showActionBarElevation(section != GRADE && section != MESSAGE)
             currentViewTitle?.let { setViewTitle(it) }
-            currentStackSize?.let {
-                if (it > 1) showHomeArrow(true)
-                else showHomeArrow(false)
-            }
         }
     }
 
     fun onAccountManagerSelected(): Boolean {
         Timber.i("Select account manager")
         view?.showAccountPicker()
-        return true
-    }
-
-    fun onUpNavigate(): Boolean {
-        Timber.i("Up navigate pressed")
-        view?.popView()
         return true
     }
 

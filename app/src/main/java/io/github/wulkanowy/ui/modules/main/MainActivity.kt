@@ -69,8 +69,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
 
     override val isDrawerOpened get() = mainDrawer.isDrawerOpen(GravityCompat.START)
 
-    override val currentStackSize get() = navController.currentStack?.size
-
     override val currentViewTitle get() = (navController.currentFrag as? MainView.TitledView)?.titleStringId?.let { getString(it) }
 
     override var startMenuIndex = 0
@@ -141,7 +139,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
             8 -> MobileDeviceFragment()
             9 -> SettingsFragment()
             10 -> AboutFragment()
-            else -> throw IllegalAccessException()
+            else -> throw IllegalArgumentException()
         }
     }
 
@@ -150,20 +148,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
         else false
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return presenter.onUpNavigate()
-    }
-
     override fun switchMenuView(position: Int) {
         navController.switchTab(position)
     }
 
     override fun setViewTitle(title: String) {
         supportActionBar?.title = title
-    }
-
-    override fun showHomeArrow(show: Boolean) {
-        supportActionBar?.setDisplayHomeAsUpEnabled(show)
     }
 
     override fun showAccountPicker() {
