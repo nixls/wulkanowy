@@ -6,8 +6,6 @@ interface MainView : BaseView {
 
     var startMenuIndex: Int
 
-    var startMenuMoreIndex: Int
-
     val isRootView: Boolean
 
     val isDrawerOpened: Boolean

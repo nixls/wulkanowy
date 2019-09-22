@@ -31,9 +31,8 @@ class TimetableFragment : BaseFragment(), TimetableView, MainView.TitledView {
     lateinit var timetableAdapter: FlexibleAdapter<AbstractFlexibleItem<*>>
 
     companion object {
-        private const val SAVED_DATE_KEY = "CURRENT_DATE"
 
-        fun newInstance() = TimetableFragment()
+        private const val SAVED_DATE_KEY = "CURRENT_DATE"
     }
 
     override val titleStringId get() = R.string.timetable_title

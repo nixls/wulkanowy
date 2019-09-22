@@ -31,9 +31,8 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.TitledView {
     lateinit var attendanceAdapter: FlexibleAdapter<AbstractFlexibleItem<*>>
 
     companion object {
-        private const val SAVED_DATE_KEY = "CURRENT_DATE"
 
-        fun newInstance() = AttendanceFragment()
+        private const val SAVED_DATE_KEY = "CURRENT_DATE"
     }
 
     override val titleStringId get() = R.string.attendance_title

@@ -33,9 +33,8 @@ class GradeFragment : BaseFragment(), GradeView, MainView.TitledView {
     private var semesterSwitchMenu: MenuItem? = null
 
     companion object {
-        private const val SAVED_SEMESTER_KEY = "CURRENT_SEMESTER"
 
-        fun newInstance() = GradeFragment()
+        private const val SAVED_SEMESTER_KEY = "CURRENT_SEMESTER"
     }
 
     override val titleStringId get() = R.string.grade_title

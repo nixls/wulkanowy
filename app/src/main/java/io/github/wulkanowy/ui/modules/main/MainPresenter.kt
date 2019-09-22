@@ -24,12 +24,8 @@ class MainPresenter @Inject constructor(
     fun onAttachView(view: MainView, initMenu: MainView.Section?) {
         super.onAttachView(view)
         view.apply {
-            getProperViewIndexes(initMenu).let { (main, more) ->
-                startMenuIndex = main
-                startMenuMoreIndex = more
-            }
             initView()
-            Timber.i("Main view was initialized with $startMenuIndex menu index and $startMenuMoreIndex more index")
+            //Timber.i("Main view was initialized with $startMenuIndex menu index and $startMenuMoreIndex more index")
         }
 
         syncManager.startSyncWorker()
@@ -77,13 +73,5 @@ class MainPresenter @Inject constructor(
             closeDrawer()
         }
         return true
-    }
-
-    private fun getProperViewIndexes(initMenu: MainView.Section?): Pair<Int, Int> {
-        return when (initMenu?.id) {
-            in 0..3 -> initMenu!!.id to -1
-            in 4..10 -> 4 to initMenu!!.id
-            else -> prefRepository.startMenuIndex to -1
-        }
     }
 }

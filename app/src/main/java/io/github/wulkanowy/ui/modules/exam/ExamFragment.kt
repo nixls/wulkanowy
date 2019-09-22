@@ -30,9 +30,8 @@ class ExamFragment : BaseFragment(), ExamView, MainView.TitledView {
     lateinit var examAdapter: FlexibleAdapter<AbstractFlexibleItem<*>>
 
     companion object {
-        private const val SAVED_DATE_KEY = "CURRENT_DATE"
 
-        fun newInstance() = ExamFragment()
+        private const val SAVED_DATE_KEY = "CURRENT_DATE"
     }
 
     override val titleStringId get() = R.string.exam_title

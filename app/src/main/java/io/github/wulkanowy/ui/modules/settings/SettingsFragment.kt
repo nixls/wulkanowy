@@ -21,10 +21,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     @Inject
     lateinit var appInfo: AppInfo
 
-    companion object {
-        fun newInstance() = SettingsFragment()
-    }
-
     override val titleStringId get() = R.string.settings_title
 
     override fun onAttach(context: Context) {

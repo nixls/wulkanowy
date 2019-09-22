@@ -51,6 +51,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
     lateinit var overlayProvider: Lazy<ElevationOverlayProvider>
 
     companion object {
+
         const val EXTRA_START_MENU = "extraStartMenu"
 
         fun getStartIntent(context: Context, startMenu: MainView.Section? = null, clear: Boolean = false): Intent {
@@ -74,15 +75,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
 
     override var startMenuIndex = 0
 
-    override var startMenuMoreIndex = -1
-
-    private val moreMenuFragments = mapOf<Int, Fragment>(
-        MainView.Section.MESSAGE.id to MessageFragment.newInstance(),
-        MainView.Section.HOMEWORK.id to HomeworkFragment.newInstance(),
-        MainView.Section.NOTE.id to NoteFragment.newInstance(),
-        MainView.Section.LUCKY_NUMBER.id to LuckyNumberFragment.newInstance()
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -91,10 +83,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
 
         presenter.onAttachView(this, intent.getSerializableExtra(EXTRA_START_MENU) as? MainView.Section)
 
-        with(navController) {
-            initialize(startMenuIndex, savedInstanceState)
-            pushFragment(moreMenuFragments[startMenuMoreIndex])
-        }
+        navController.initialize(startMenuIndex, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -141,17 +130,17 @@ class MainActivity : BaseActivity<MainPresenter>(), MainView,
 
     override fun getRootFragment(index: Int): Fragment {
         return when (index) {
-            0 -> GradeFragment.newInstance()
-            1 -> AttendanceFragment.newInstance()
-            2 -> ExamFragment.newInstance()
-            3 -> TimetableFragment.newInstance()
-            4 -> MessageFragment.newInstance()
-            5 -> HomeworkFragment.newInstance()
-            6 -> NoteFragment.newInstance()
-            7 -> LuckyNumberFragment.newInstance()
-            8 -> MobileDeviceFragment.newInstance()
-            9 -> SettingsFragment.newInstance()
-            10 -> AboutFragment.newInstance()
+            0 -> GradeFragment()
+            1 -> AttendanceFragment()
+            2 -> ExamFragment()
+            3 -> TimetableFragment()
+            4 -> MessageFragment()
+            5 -> HomeworkFragment()
+            6 -> NoteFragment()
+            7 -> LuckyNumberFragment()
+            8 -> MobileDeviceFragment()
+            9 -> SettingsFragment()
+            10 -> AboutFragment()
             else -> throw IllegalAccessException()
         }
     }
