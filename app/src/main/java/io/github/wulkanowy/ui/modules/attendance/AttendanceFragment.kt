@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -29,7 +28,7 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
     lateinit var presenter: AttendancePresenter
 
     @Inject
-    lateinit var attendanceAdapter: FlexibleAdapter<AbstractFlexibleItem<*>>
+    lateinit var attendanceAdapter: AttendanceAdapter<AbstractFlexibleItem<*>>
 
     companion object {
         private const val SAVED_DATE_KEY = "CURRENT_DATE"
@@ -60,6 +59,7 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
 
     override fun initView() {
         attendanceAdapter.setOnItemClickListener(presenter::onAttendanceItemSelected)
+        attendanceAdapter.onExcuseCheckboxSelect = presenter::onExcuseCheckboxSelect
 
         with(attendanceRecycler) {
             layoutManager = SmoothScrollLinearLayoutManager(context)
@@ -135,6 +135,10 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
 
     override fun showNextButton(show: Boolean) {
         attendanceNextButton.visibility = if (show) View.VISIBLE else View.INVISIBLE
+    }
+
+    override fun showExcuseButton(show: Boolean) {
+        attendanceExcuseButton.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun showAttendanceDialog(lesson: Attendance) {

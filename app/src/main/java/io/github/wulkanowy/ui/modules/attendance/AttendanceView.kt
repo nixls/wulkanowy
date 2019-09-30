@@ -33,6 +33,8 @@ interface AttendanceView : BaseView {
 
     fun showNextButton(show: Boolean)
 
+    fun showExcuseButton(show: Boolean)
+
     fun showAttendanceDialog(lesson: Attendance)
 
     fun openSummaryView()

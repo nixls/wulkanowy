@@ -29,6 +29,9 @@ class AttendanceItem(val attendance: Attendance) : AbstractFlexibleItem<Attendan
             attendanceItemAlert.visibility = attendance.run { if (absence && !excused) VISIBLE else INVISIBLE }
             attendanceItemNumber.visibility = if (attendance.excusable) GONE else VISIBLE
             attendanceItemExcuseCheckbox.visibility = if (attendance.excusable) VISIBLE else GONE
+            attendanceItemExcuseCheckbox.setOnCheckedChangeListener { _, checked ->
+                (adapter as AttendanceAdapter).onExcuseCheckboxSelect(attendance, checked)
+            }
         }
     }
 

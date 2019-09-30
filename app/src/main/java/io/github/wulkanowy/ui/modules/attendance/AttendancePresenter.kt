@@ -1,6 +1,7 @@
 package io.github.wulkanowy.ui.modules.attendance
 
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
+import io.github.wulkanowy.data.db.entities.Attendance
 import io.github.wulkanowy.data.repositories.attendance.AttendanceRepository
 import io.github.wulkanowy.data.repositories.preferences.PreferencesRepository
 import io.github.wulkanowy.data.repositories.semester.SemesterRepository
@@ -36,6 +37,8 @@ class AttendancePresenter @Inject constructor(
 
     lateinit var currentDate: LocalDate
         private set
+
+    private var attendanceToExcuseList: List<Attendance> = ArrayList()
 
     fun onAttachView(view: AttendanceView, date: Long?) {
         super.onAttachView(view)
@@ -80,6 +83,15 @@ class AttendancePresenter @Inject constructor(
             Timber.i("Select attendance item ${item.attendance.id}")
             view?.showAttendanceDialog(item.attendance)
         }
+    }
+
+    fun onExcuseCheckboxSelect(attendanceItem: Attendance, checked: Boolean) {
+        attendanceToExcuseList = when (checked) {
+            true -> attendanceToExcuseList + attendanceItem
+            false -> attendanceToExcuseList - attendanceItem
+        }
+
+        view?.showExcuseButton(attendanceToExcuseList.isNotEmpty())
     }
 
     fun onSummarySwitchSelected(): Boolean {
