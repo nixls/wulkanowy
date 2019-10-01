@@ -15,6 +15,9 @@ data class Attendance(
     @ColumnInfo(name = "diary_id")
     val diaryId: Int,
 
+    @ColumnInfo(name = "time_id")
+    val timeId: Int,
+
     val date: LocalDate,
 
     val number: Int,

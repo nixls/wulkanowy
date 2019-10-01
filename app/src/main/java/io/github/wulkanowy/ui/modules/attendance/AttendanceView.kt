@@ -9,6 +9,8 @@ interface AttendanceView : BaseView {
 
     val currentStackSize: Int?
 
+    val excuseSuccessString: String
+
     fun initView()
 
     fun updateData(data: List<AttendanceItem>)
@@ -36,6 +38,8 @@ interface AttendanceView : BaseView {
     fun showExcuseButton(show: Boolean)
 
     fun showAttendanceDialog(lesson: Attendance)
+
+    fun showExcuseDialog()
 
     fun openSummaryView()
 

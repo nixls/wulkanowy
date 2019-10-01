@@ -7,6 +7,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -29,6 +32,9 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
 
     @Inject
     lateinit var attendanceAdapter: AttendanceAdapter<AbstractFlexibleItem<*>>
+
+    override val excuseSuccessString: String
+        get() = getString(R.string.attendance_excuse_success)
 
     companion object {
         private const val SAVED_DATE_KEY = "CURRENT_DATE"
@@ -72,6 +78,8 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
         attendanceSwipe.setOnRefreshListener(presenter::onSwipeRefresh)
         attendancePreviousButton.setOnClickListener { presenter.onPreviousDay() }
         attendanceNextButton.setOnClickListener { presenter.onNextDay() }
+
+        attendanceExcuseButton.setOnClickListener { presenter.onExcuseButtonClick() }
 
         attendanceNavContainer.setElevationCompat(requireContext().dpToPx(8f))
     }
@@ -143,6 +151,29 @@ class AttendanceFragment : BaseFragment(), AttendanceView, MainView.MainChildVie
 
     override fun showAttendanceDialog(lesson: Attendance) {
         (activity as? MainActivity)?.showDialogFragment(AttendanceDialog.newInstance(lesson))
+    }
+
+    override fun showExcuseDialog() {
+        val input = EditText(context)
+        val container = FrameLayout(requireContext())
+        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val margin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+
+        params.leftMargin = margin
+        params.rightMargin = margin
+        input.layoutParams = params
+        container.addView(input)
+
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.attendance_excuse_dialog_title)
+            .setView(container)
+            .setPositiveButton(R.string.attendance_excuse_dialog_submit) { _, _ ->
+                val reason = input.text.toString()
+                presenter.onExcuseDialogSubmit(reason)
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .show()
     }
 
     override fun openSummaryView() {

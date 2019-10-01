@@ -121,6 +121,9 @@
         <item quantity="few">%1$d nieobecności</item>
         <item quantity="many">%1$d nieobecności</item>
     </plurals>
+    <string name="attendance_excuse_dialog_title">Powód nieobecności (opcjonalny)</string>
+    <string name="attendance_excuse_dialog_submit">Wyślij</string>
+    <string name="attendance_excuse_success">Usprawiedliwiono pomyślnie!</string>
 
 
     <!--Attendance summary-->

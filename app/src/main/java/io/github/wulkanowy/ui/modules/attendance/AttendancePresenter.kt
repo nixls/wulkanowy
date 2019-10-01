@@ -94,6 +94,18 @@ class AttendancePresenter @Inject constructor(
         view?.showExcuseButton(attendanceToExcuseList.isNotEmpty())
     }
 
+    fun onExcuseButtonClick() {
+        if (attendanceToExcuseList.isNotEmpty()) {
+            view?.showExcuseDialog()
+        }
+    }
+
+    fun onExcuseDialogSubmit(reason: String) {
+        if (attendanceToExcuseList.isNotEmpty()) {
+            excuseAbsence(if (reason != "") reason else null)
+        }
+    }
+
     fun onSummarySwitchSelected(): Boolean {
         view?.openSummaryView()
         return true
@@ -151,6 +163,37 @@ class AttendancePresenter @Inject constructor(
                     errorHandler.dispatch(it)
                 }
             )
+        }
+    }
+
+    private fun excuseAbsence(reason: String?) {
+        Timber.i("Excusing absence started")
+        disposable.apply {
+            add(studentRepository.getCurrentStudent()
+                .delay(200, MILLISECONDS)
+                .flatMap { semesterRepository.getCurrentSemester(it) }
+                .flatMap { attendanceRepository.excuseForAbsence(it, attendanceToExcuseList, reason) }
+                .subscribeOn(schedulers.backgroundThread)
+                .observeOn(schedulers.mainThread)
+                .doOnSubscribe {
+                    view?.showProgress(true)
+                }
+                .doFinally {
+                    view?.showProgress(false)
+                }
+                .subscribe({
+                    Timber.i("Excusing for absence result: Success")
+                    analytics.logEvent("excuse_absence", "items" to attendanceToExcuseList.size)
+                    attendanceToExcuseList = ArrayList()
+                    view?.apply {
+                        showExcuseButton(false)
+                        showMessage(excuseSuccessString)
+                    }
+                    loadData(currentDate, true)
+                }) {
+                    Timber.i("Excusing for absence result: An exception occurred")
+                    errorHandler.dispatch(it)
+                })
         }
     }
 
