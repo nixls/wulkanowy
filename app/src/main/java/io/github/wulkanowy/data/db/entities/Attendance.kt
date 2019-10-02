@@ -38,7 +38,11 @@ data class Attendance(
 
     val deleted: Boolean,
 
-    val excusable: Boolean
+    val excusable: Boolean,
+
+    @ColumnInfo(name = "excuse_status")
+    val excuseStatus: Int?
+
 ) : Serializable {
 
     @PrimaryKey(autoGenerate = true)

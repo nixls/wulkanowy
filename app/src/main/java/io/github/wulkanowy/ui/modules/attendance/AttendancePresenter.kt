@@ -176,10 +176,10 @@ class AttendancePresenter @Inject constructor(
                 .subscribeOn(schedulers.backgroundThread)
                 .observeOn(schedulers.mainThread)
                 .doOnSubscribe {
-                    view?.showProgress(true)
-                }
-                .doFinally {
-                    view?.showProgress(false)
+                    view?.apply {
+                        showProgress(true)
+                        showContent(false)
+                    }
                 }
                 .subscribe({
                     Timber.i("Excusing for absence result: Success")
@@ -192,6 +192,7 @@ class AttendancePresenter @Inject constructor(
                     loadData(currentDate, true)
                 }) {
                     Timber.i("Excusing for absence result: An exception occurred")
+                    view?.showProgress(false)
                     errorHandler.dispatch(it)
                 })
         }

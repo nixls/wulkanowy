@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 17,
-    "identityHash": "4b32c8e23135e9828b7a6f2496494065",
+    "identityHash": "9367fc35fc45cc5cd3933f519df28ceb",
     "entities": [
       {
         "tableName": "Students",
@@ -410,7 +410,7 @@
       },
       {
         "tableName": "Attendance",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `student_id` INTEGER NOT NULL, `diary_id` INTEGER NOT NULL, `time_id` INTEGER NOT NULL, `date` INTEGER NOT NULL, `number` INTEGER NOT NULL, `subject` TEXT NOT NULL, `name` TEXT NOT NULL, `presence` INTEGER NOT NULL, `absence` INTEGER NOT NULL, `exemption` INTEGER NOT NULL, `lateness` INTEGER NOT NULL, `excused` INTEGER NOT NULL, `deleted` INTEGER NOT NULL, `excusable` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `student_id` INTEGER NOT NULL, `diary_id` INTEGER NOT NULL, `time_id` INTEGER NOT NULL, `date` INTEGER NOT NULL, `number` INTEGER NOT NULL, `subject` TEXT NOT NULL, `name` TEXT NOT NULL, `presence` INTEGER NOT NULL, `absence` INTEGER NOT NULL, `exemption` INTEGER NOT NULL, `lateness` INTEGER NOT NULL, `excused` INTEGER NOT NULL, `deleted` INTEGER NOT NULL, `excusable` INTEGER NOT NULL, `excuse_status` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -501,6 +501,12 @@
             "columnName": "excusable",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "excuseStatus",
+            "columnName": "excuse_status",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -1486,7 +1492,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4b32c8e23135e9828b7a6f2496494065')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9367fc35fc45cc5cd3933f519df28ceb')"
     ]
   }
 }

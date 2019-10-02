@@ -9,6 +9,7 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.github.wulkanowy.R
+import io.github.wulkanowy.api.attendance.SentExcuse
 import io.github.wulkanowy.data.db.entities.Attendance
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_attendance.*
@@ -27,10 +28,25 @@ class AttendanceItem(val attendance: Attendance) : AbstractFlexibleItem<Attendan
             attendanceItemSubject.text = attendance.subject
             attendanceItemDescription.text = attendance.name
             attendanceItemAlert.visibility = attendance.run { if (absence && !excused) VISIBLE else INVISIBLE }
-            attendanceItemNumber.visibility = if (attendance.excusable) GONE else VISIBLE
-            attendanceItemExcuseCheckbox.visibility = if (attendance.excusable) VISIBLE else GONE
+            attendanceItemNumber.visibility = GONE
+            attendanceItemExcuseInfo.visibility = GONE
             attendanceItemExcuseCheckbox.setOnCheckedChangeListener { _, checked ->
                 (adapter as AttendanceAdapter).onExcuseCheckboxSelect(attendance, checked)
+            }
+            when (attendance.excuseStatus) {
+                SentExcuse.Status.WAITING.id -> {
+                    attendanceItemExcuseInfo.setImageResource(R.drawable.ic_excuse_waiting)
+                    attendanceItemExcuseInfo.visibility = VISIBLE
+                    attendanceItemAlert.visibility = INVISIBLE
+                }
+                SentExcuse.Status.DENIED.id -> {
+                    attendanceItemExcuseInfo.setImageResource(R.drawable.ic_excuse_denied)
+                    attendanceItemExcuseInfo.visibility = VISIBLE
+                }
+                else -> {
+                    attendanceItemNumber.visibility = if (attendance.excusable) GONE else VISIBLE
+                    attendanceItemExcuseCheckbox.visibility = if (attendance.excusable) VISIBLE else GONE
+                }
             }
         }
     }

@@ -28,6 +28,8 @@
             android:includeFontPadding="false"
             android:maxLength="2"
             android:textSize="32sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             tools:text="5" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
@@ -36,6 +38,14 @@
             android:layout_height="32dp"
             android:text="@null"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/attendanceItemExcuseInfo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_excuse_waiting"
+            app:tint="?attr/colorOnSurface" />
     </LinearLayout>
 
     <TextView
