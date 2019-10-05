@@ -9,12 +9,13 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import io.github.wulkanowy.R
-import io.github.wulkanowy.api.attendance.SentExcuse
 import io.github.wulkanowy.data.db.entities.Attendance
+import io.github.wulkanowy.data.repositories.attendance.SentExcuseStatus
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_attendance.*
 
-class AttendanceItem(val attendance: Attendance) : AbstractFlexibleItem<AttendanceItem.ViewHolder>() {
+class AttendanceItem(val attendance: Attendance) :
+    AbstractFlexibleItem<AttendanceItem.ViewHolder>() {
 
     override fun getLayoutRes() = R.layout.item_attendance
 
@@ -30,16 +31,18 @@ class AttendanceItem(val attendance: Attendance) : AbstractFlexibleItem<Attendan
             attendanceItemAlert.visibility = attendance.run { if (absence && !excused) VISIBLE else INVISIBLE }
             attendanceItemNumber.visibility = GONE
             attendanceItemExcuseInfo.visibility = GONE
+            attendanceItemExcuseCheckbox.visibility = GONE
             attendanceItemExcuseCheckbox.setOnCheckedChangeListener { _, checked ->
                 (adapter as AttendanceAdapter).onExcuseCheckboxSelect(attendance, checked)
             }
-            when (attendance.excuseStatus) {
-                SentExcuse.Status.WAITING.id -> {
+
+            when (if (attendance.excuseStatus != null) SentExcuseStatus.valueOf(attendance.excuseStatus) else null) {
+                SentExcuseStatus.WAITING -> {
                     attendanceItemExcuseInfo.setImageResource(R.drawable.ic_excuse_waiting)
                     attendanceItemExcuseInfo.visibility = VISIBLE
                     attendanceItemAlert.visibility = INVISIBLE
                 }
-                SentExcuse.Status.DENIED.id -> {
+                SentExcuseStatus.DENIED -> {
                     attendanceItemExcuseInfo.setImageResource(R.drawable.ic_excuse_denied)
                     attendanceItemExcuseInfo.visibility = VISIBLE
                 }
@@ -68,7 +71,8 @@ class AttendanceItem(val attendance: Attendance) : AbstractFlexibleItem<Attendan
         return result
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter), LayoutContainer {
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter),
+        LayoutContainer {
         override val containerView: View
             get() = contentView
     }

@@ -41,7 +41,7 @@ data class Attendance(
     val excusable: Boolean,
 
     @ColumnInfo(name = "excuse_status")
-    val excuseStatus: Int?
+    val excuseStatus: String?
 
 ) : Serializable {
 
