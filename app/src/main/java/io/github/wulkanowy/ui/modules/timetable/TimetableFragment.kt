@@ -37,8 +37,6 @@ class TimetableFragment : BaseFragment(), TimetableView, MainView.TitledView {
 
     override val titleStringId get() = R.string.timetable_title
 
-    override val roomString get() = getString(R.string.timetable_room)
-
     override val isViewEmpty get() = timetableAdapter.isEmpty
 
     override fun onCreate(savedInstanceState: Bundle?) {
