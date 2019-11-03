@@ -30,7 +30,7 @@ class AlarmHelper @Inject constructor(
     private fun Long.toLocalDateTime() = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
     fun cancelNotifications(lessons: List<Timetable>, studentId: Int = 1) {
-        lessons.forEachIndexed { index, lesson ->
+        lessons.sortedBy { it.start }.forEachIndexed { index, lesson ->
             val upcomingTimestamp = lessons.getOrNull(index - 1)?.end?.toTimestamp() ?: lesson.start.minusMinutes(30).toTimestamp()
             val currentTimestamp = lesson.start.toTimestamp()
             alarmManager.cancel(PendingIntent.getBroadcast(context, (upcomingTimestamp * studentId).toInt(), Intent(), PendingIntent.FLAG_CANCEL_CURRENT))

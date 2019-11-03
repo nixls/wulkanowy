@@ -1,5 +1,6 @@
 package io.github.wulkanowy.services.alarm
 
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import io.github.wulkanowy.R
 import io.github.wulkanowy.services.sync.channels.UpcomingLessonsChannel
+import io.github.wulkanowy.ui.modules.main.MainActivity
+import io.github.wulkanowy.ui.modules.main.MainView
 import io.github.wulkanowy.utils.getCompatColor
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
@@ -40,13 +43,15 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
     private fun showNotification(context: Context, type: Int, subject: String?, room: String, start: Long, end: Long) {
         NotificationManagerCompat.from(context).notify(type, NotificationCompat.Builder(context, UpcomingLessonsChannel.CHANNEL_ID)
             .setContentTitle((if (type == NOTIFICATION_TYPE_CURRENT) context.getString(R.string.timetable_now) else context.getString(R.string.timetable_next)) + ": $subject ($room)")
+            .setWhen(if (type == NOTIFICATION_TYPE_CURRENT) end else start)
             .setContentText("od ${start.toLocalDateTime()} do ${end.toLocalDateTime()}")
             .setUsesChronometer(true)
             .setAutoCancel(false)
             .setOngoing(true)
-            .setWhen(if (type == NOTIFICATION_TYPE_CURRENT) end else start)
             .setColor(context.getCompatColor(R.color.colorPrimary))
             .setSmallIcon(R.drawable.ic_main_timetable)
+            .setContentIntent(PendingIntent.getActivity(context, MainView.Section.TIMETABLE.id,
+                MainActivity.getStartIntent(context, MainView.Section.TIMETABLE, true), PendingIntent.FLAG_UPDATE_CURRENT))
             .build()
         )
     }
