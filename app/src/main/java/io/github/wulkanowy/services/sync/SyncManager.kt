@@ -14,6 +14,7 @@ import io.github.wulkanowy.data.db.SharedPrefProvider
 import io.github.wulkanowy.data.repositories.preferences.PreferencesRepository
 import io.github.wulkanowy.services.sync.channels.DebugChannel
 import io.github.wulkanowy.services.sync.channels.NewEntriesChannel
+import io.github.wulkanowy.services.sync.channels.UpcomingLessonsChannel
 import io.github.wulkanowy.utils.AppInfo
 import io.github.wulkanowy.utils.isHolidays
 import org.threeten.bp.LocalDate.now
@@ -28,6 +29,7 @@ class SyncManager @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
     sharedPrefProvider: SharedPrefProvider,
     newEntriesChannel: NewEntriesChannel,
+    upcomingLessonsChannel: UpcomingLessonsChannel,
     debugChannel: DebugChannel,
     appInfo: AppInfo
 ) {
@@ -41,6 +43,7 @@ class SyncManager @Inject constructor(
 
         if (SDK_INT > O) {
             newEntriesChannel.create()
+            upcomingLessonsChannel.create()
             if (appInfo.isDebug) debugChannel.create()
         }
 

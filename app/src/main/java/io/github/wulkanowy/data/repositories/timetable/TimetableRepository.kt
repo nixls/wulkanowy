@@ -4,6 +4,7 @@ import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.InternetObservingSettings
 import io.github.wulkanowy.data.db.entities.Semester
 import io.github.wulkanowy.data.db.entities.Timetable
+import io.github.wulkanowy.services.alarm.AlarmHelper
 import io.github.wulkanowy.utils.friday
 import io.github.wulkanowy.utils.monday
 import io.github.wulkanowy.utils.uniqueSubtract
@@ -17,7 +18,8 @@ import javax.inject.Singleton
 class TimetableRepository @Inject constructor(
     private val settings: InternetObservingSettings,
     private val local: TimetableLocal,
-    private val remote: TimetableRemote
+    private val remote: TimetableRemote,
+    private val alarmHelper: AlarmHelper
 ) {
 
     fun getTimetable(semester: Semester, start: LocalDate, end: LocalDate, forceRefresh: Boolean = false): Single<List<Timetable>> {
@@ -30,7 +32,7 @@ class TimetableRepository @Inject constructor(
                     local.getTimetable(semester, monday, friday)
                         .toSingle(emptyList())
                         .doOnSuccess { old ->
-                            local.deleteTimetable(old.uniqueSubtract(new))
+                            local.deleteTimetable(old.uniqueSubtract(new).also { alarmHelper.cancelNotifications(it) })
                             local.saveTimetable(new.uniqueSubtract(old).map { item ->
                                 item.also { new ->
                                     old.singleOrNull { new.start == it.start }?.let { old ->
@@ -44,7 +46,7 @@ class TimetableRepository @Inject constructor(
                         }
                 }.flatMap {
                     local.getTimetable(semester, monday, friday).toSingle(emptyList())
-                }).map { list -> list.filter { it.date in start..end } }
+                }).map { list -> list.filter { it.date in start..end }.also { alarmHelper.scheduleNotifications(it) } }
         }
     }
 }

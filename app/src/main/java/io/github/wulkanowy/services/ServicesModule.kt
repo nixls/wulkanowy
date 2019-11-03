@@ -1,7 +1,9 @@
 package io.github.wulkanowy.services
 
+import android.app.AlarmManager
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.getSystemService
 import androidx.work.WorkManager
 import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Binds
@@ -41,6 +43,10 @@ abstract class ServicesModule {
         @Singleton
         @Provides
         fun provideNotificationManager(context: Context) = NotificationManagerCompat.from(context)
+
+        @Singleton
+        @Provides
+        fun provideAlarmManager(context: Context): AlarmManager = context.getSystemService()!!
     }
 
     @ContributesAndroidInjector

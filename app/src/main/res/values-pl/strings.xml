@@ -319,6 +319,7 @@
 
     <!--Notification Channels-->
     <string name="channel_new_entries">Nowe wpisy w dzienniku</string>
+    <string name="channel_upcoming_lessons">Nadchodzące lekcje</string>
     <string name="channel_debug">Debugowanie</string>
 
 

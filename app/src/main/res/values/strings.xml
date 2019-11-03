@@ -305,6 +305,7 @@
 
     <!--Notification Channels-->
     <string name="channel_new_entries">New entries in register</string>
+    <string name="channel_upcoming_lessons">Upcoming lessons</string>
     <string name="channel_debug">Debug</string>
 
 

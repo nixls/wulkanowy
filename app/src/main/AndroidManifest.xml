@@ -43,8 +43,8 @@
             android:name=".ui.modules.message.send.SendMessageActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/send_message_title"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/WulkanowyTheme.NoActionBar" />
+            android:theme="@style/WulkanowyTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.modules.timetablewidget.TimetableWidgetConfigureActivity"
             android:excludeFromRecents="true"
@@ -89,6 +89,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/provider_widget_lucky_number" />
         </receiver>
+
+        <receiver android:name=".services.alarm.AlarmBroadcastReceiver" />
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
