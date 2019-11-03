@@ -46,7 +46,7 @@ class TimetableRepository @Inject constructor(
                         }
                 }.flatMap {
                     local.getTimetable(semester, monday, friday).toSingle(emptyList())
-                }).map { list -> list.filter { it.date in start..end }.also { alarmHelper.scheduleNotifications(it) } }
+                }).map { list -> list.also { alarmHelper.scheduleNotifications(it) }.filter { it.date in start..end } }
         }
     }
 }
