@@ -40,27 +40,31 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
         val subject = intent.getStringExtra(LESSON_TITLE)
         val room = intent.getStringExtra(LESSON_ROOM)
 
-        val nextSubject = intent.getStringExtra(LESSON_NEXT_TITLE)
-        val nextRoom = intent.getStringExtra(LESSON_NEXT_ROOM)
         val start = intent.getLongExtra(LESSON_START, 0)
         val end = intent.getLongExtra(LESSON_END, 0)
+
+        val nextSubject = intent.getStringExtra(LESSON_NEXT_TITLE)
+        val nextRoom = intent.getStringExtra(LESSON_NEXT_ROOM)
+
         Timber.d("AlarmBroadcastReceiver receive intent: type: $type, subject: $subject, room: $room, start: $start")
 
-        showNotification(context, type, context.getString(if (type == NOTIFICATION_TYPE_CURRENT) R.string.timetable_now else R.string.timetable_next, "$subject ($room)"),
-            start, end, nextSubject?.let { context.getString(R.string.timetable_later, "$nextSubject ($nextRoom)") }
+        showNotification(context, type,
+            if (type == NOTIFICATION_TYPE_CURRENT) end else start,
+            context.getString(if (type == NOTIFICATION_TYPE_CURRENT) R.string.timetable_now else R.string.timetable_next, "$subject ($room)"),
+            nextSubject?.let { context.getString(R.string.timetable_later, "$nextSubject ($nextRoom)") }
         )
     }
 
-    private fun showNotification(context: Context, type: Int, title: String, start: Long, end: Long, next: String?) {
+    private fun showNotification(context: Context, type: Int, countDown: Long, title: String, next: String?) {
         NotificationManagerCompat.from(context).notify(type, NotificationCompat.Builder(context, UpcomingLessonsChannel.CHANNEL_ID)
             .setContentTitle(title)
-            .setWhen(if (type == NOTIFICATION_TYPE_CURRENT) end else start)
             .setContentText(next)
-            .setUsesChronometer(true)
             .setAutoCancel(false)
             .setOngoing(true)
-            .setColor(context.getCompatColor(R.color.colorPrimary))
+            .setWhen(countDown)
+            .setUsesChronometer(true)
             .setSmallIcon(R.drawable.ic_main_timetable)
+            .setColor(context.getCompatColor(R.color.colorPrimary))
             .setContentIntent(PendingIntent.getActivity(context, MainView.Section.TIMETABLE.id,
                 MainActivity.getStartIntent(context, MainView.Section.TIMETABLE, true), PendingIntent.FLAG_UPDATE_CURRENT))
             .build()

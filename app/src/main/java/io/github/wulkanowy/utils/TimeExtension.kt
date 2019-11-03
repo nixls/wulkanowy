@@ -5,7 +5,6 @@ import org.threeten.bp.DayOfWeek.FRIDAY
 import org.threeten.bp.DayOfWeek.MONDAY
 import org.threeten.bp.DayOfWeek.SATURDAY
 import org.threeten.bp.DayOfWeek.SUNDAY
-import org.threeten.bp.Instant
 import org.threeten.bp.Instant.ofEpochMilli
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -21,11 +20,15 @@ import java.util.Locale
 
 private const val DATE_PATTERN = "dd.MM.yyyy"
 
-fun Date.toLocalDate(): LocalDate = Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate()
+fun Date.toLocalDate(): LocalDate = ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate()
 
 fun Date.toLocalDateTime(): LocalDateTime = ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
 fun String.toLocalDate(format: String = DATE_PATTERN): LocalDate = LocalDate.parse(this, ofPattern(format))
+
+fun Long.toLocalDateTime(): LocalDateTime = ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
+
+fun LocalDateTime.toTimestamp() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
 fun LocalDate.toFormattedString(format: String = DATE_PATTERN): String = format(ofPattern(format))
 
@@ -92,9 +95,6 @@ inline val LocalDate.previousOrSameSchoolDay: LocalDate
 
 inline val LocalDate.weekDayName: String
     get() = format(ofPattern("EEEE", Locale.getDefault()))
-
-inline val LocalDate.shortcutWeekDayName: String
-    get() = format(ofPattern("EEE", Locale.getDefault()))
 
 inline val LocalDate.monday: LocalDate
     get() = with(MONDAY)

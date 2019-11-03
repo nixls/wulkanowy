@@ -17,10 +17,9 @@ import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.LESSO
 import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.NOTIFICATION_TYPE_CURRENT
 import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.NOTIFICATION_TYPE_LAST_LESSON_CANCELLATION
 import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.NOTIFICATION_TYPE_UPCOMING
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDateTime
+import io.github.wulkanowy.utils.toLocalDateTime
+import io.github.wulkanowy.utils.toTimestamp
 import org.threeten.bp.LocalDateTime.now
-import org.threeten.bp.ZoneId
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,10 +28,6 @@ class AlarmHelper @Inject constructor(
     private val alarmManager: AlarmManager,
     private val preferencesRepository: PreferencesRepository
 ) {
-
-    private fun LocalDateTime.toTimestamp() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-
-    private fun Long.toLocalDateTime() = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
     fun cancelNotifications(lessons: List<Timetable>, studentId: Int = 1) {
         lessons.sortedBy { it.start }.forEachIndexed { index, lesson ->
