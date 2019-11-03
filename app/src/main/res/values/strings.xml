@@ -96,8 +96,9 @@
     <string name="timetable_time">Hours</string>
     <string name="timetable_changes">Changes</string>
     <string name="timetable_no_items">No lessons this day</string>
-    <string name="timetable_now">Now</string>
-    <string name="timetable_next">Next</string>
+    <string name="timetable_now">Now: %s</string>
+    <string name="timetable_next">Next: %s</string>
+    <string name="timetable_later">Later: %s</string>
 
 
     <!--Completed lessons-->
