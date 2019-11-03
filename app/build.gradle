@@ -164,6 +164,7 @@ dependencies {
     implementation "eu.davidea:flexible-adapter-ui:1.0.0"
     implementation "com.aurelhubert:ahbottomnavigation:2.3.4"
     implementation "com.ncapdevi:frag-nav:3.3.0"
+    implementation "com.github.YarikSOffice:lingver:1.1.0"
 
     implementation "com.github.pwittchen:reactivenetwork-rx2:3.0.6"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
@@ -175,6 +176,7 @@ dependencies {
     implementation "at.favre.lib:slf4j-timber:1.0.1"
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.6"
     implementation "com.mikepenz:aboutlibraries:7.0.4"
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
     playImplementation "com.google.firebase:firebase-core:17.2.1"
     playImplementation "com.crashlytics.sdk.android:crashlytics:2.10.1"

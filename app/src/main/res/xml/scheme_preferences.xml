@@ -37,6 +37,14 @@
             app:key="@string/pref_key_grade_color_scheme"
             app:title="@string/pref_view_grade_color_scheme"
             app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="@string/pref_default_app_language"
+            app:entries="@array/app_language_entries"
+            app:entryValues="@array/app_language_values"
+            app:iconSpaceReserved="false"
+            app:key="@string/pref_key_app_language"
+            app:title="@string/pref_view_app_language"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
     <PreferenceCategory
         app:iconSpaceReserved="false"
