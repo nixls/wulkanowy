@@ -33,7 +33,7 @@ class TimetableRepository @Inject constructor(
                         .toSingle(emptyList())
                         .doOnSuccess { old ->
                             local.deleteTimetable(old.uniqueSubtract(new).also { alarmHelper.cancelNotifications(it) })
-                            local.saveTimetable(new.uniqueSubtract(old).map { item ->
+                            local.saveTimetable(new.uniqueSubtract(old).also { alarmHelper.scheduleNotifications(it) }.map { item ->
                                 item.also { new ->
                                     old.singleOrNull { new.start == it.start }?.let { old ->
                                         return@map new.copy(
@@ -46,7 +46,7 @@ class TimetableRepository @Inject constructor(
                         }
                 }.flatMap {
                     local.getTimetable(semester, monday, friday).toSingle(emptyList())
-                }).map { list -> list.also { alarmHelper.scheduleNotifications(it) }.filter { it.date in start..end } }
+                }).map { list -> list.filter { it.date in start..end }.also { alarmHelper.scheduleNotifications(it) } } // remove this maybe
         }
     }
 }

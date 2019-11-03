@@ -72,6 +72,11 @@
             app:key="@string/pref_key_notifications_enable"
             app:title="@string/pref_notify_switch" />
         <SwitchPreferenceCompat
+            app:defaultValue="@bool/pref_default_upcoming_lessons_enable"
+            app:iconSpaceReserved="false"
+            app:key="@string/pref_key_notifications_upcoming_lessons_enable"
+            app:title="@string/pref_notify_upcoming_lessons_switch" />
+        <SwitchPreferenceCompat
             app:defaultValue="@bool/pref_default_notification_debug"
             app:iconSpaceReserved="false"
             app:key="@string/pref_key_notification_debug"
@@ -106,9 +111,9 @@
             app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
             app:defaultValue="@bool/pref_default_grade_average_force_calc"
+            app:iconSpaceReserved="false"
             app:key="@string/pref_key_grade_average_force_calc"
-            app:title="@string/pref_view_grade_average_force_calc"
-            app:iconSpaceReserved="false" />
+            app:title="@string/pref_view_grade_average_force_calc" />
         <SwitchPreferenceCompat
             app:defaultValue="@bool/pref_default_fill_message_content"
             app:iconSpaceReserved="false"

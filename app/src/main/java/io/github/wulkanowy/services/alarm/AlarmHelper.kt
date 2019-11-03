@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.AlarmManagerCompat
 import io.github.wulkanowy.data.db.entities.Timetable
+import io.github.wulkanowy.data.repositories.preferences.PreferencesRepository
 import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.LESSON_END
 import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.LESSON_ROOM
 import io.github.wulkanowy.services.alarm.AlarmBroadcastReceiver.Companion.LESSON_START
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 class AlarmHelper @Inject constructor(
     private val context: Context,
-    private val alarmManager: AlarmManager
+    private val alarmManager: AlarmManager,
+    private val preferencesRepository: PreferencesRepository
 ) {
 
     private fun LocalDateTime.toTimestamp() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -40,6 +42,8 @@ class AlarmHelper @Inject constructor(
     }
 
     fun scheduleNotifications(lessons: List<Timetable>, studentId: Int = 1) {
+        if (!preferencesRepository.isUpcomingLessonsNotificationsEnable) return cancelNotifications(lessons, studentId)
+
         Timber.d("${lessons.size} to schedule, current millis: ${now().toTimestamp()}")
         lessons.sortedBy { it.start }.forEachIndexed { index, lesson ->
             val intent = with(Intent(context, AlarmBroadcastReceiver::class.java)) {

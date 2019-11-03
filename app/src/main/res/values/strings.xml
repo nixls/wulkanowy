@@ -291,6 +291,7 @@
 
     <string name="pref_notify_header">Notifications</string>
     <string name="pref_notify_switch">Show notifications</string>
+    <string name="pref_notify_upcoming_lessons_switch">Show upcoming lesson notifications</string>
     <string name="pref_notify_debug_switch">Show debug notifications</string>
 
     <string name="pref_services_header">Synchronization</string>
