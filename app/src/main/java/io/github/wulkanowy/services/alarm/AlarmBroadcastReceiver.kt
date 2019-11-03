@@ -11,7 +11,6 @@ import io.github.wulkanowy.utils.getCompatColor
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import timber.log.Timber
-import java.sql.Timestamp
 
 class AlarmBroadcastReceiver : BroadcastReceiver() {
 
@@ -40,15 +39,14 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
 
     private fun showNotification(context: Context, type: Int, subject: String?, room: String, start: Long, end: Long) {
         NotificationManagerCompat.from(context).notify(type, NotificationCompat.Builder(context, UpcomingLessonsChannel.CHANNEL_ID)
-            .setContentTitle((if (type == NOTIFICATION_TYPE_CURRENT) "Bieżąca lekcja" else "Nadchodząca lekcja") + ": $subject")
-            .setContentText("Sala $room, od ${start.toLocalDateTime()} do ${end.toLocalDateTime()}")
+            .setContentTitle((if (type == NOTIFICATION_TYPE_CURRENT) context.getString(R.string.timetable_now) else context.getString(R.string.timetable_next)) + ": $subject ($room)")
+            .setContentText("od ${start.toLocalDateTime()} do ${end.toLocalDateTime()}")
             .setUsesChronometer(true)
             .setAutoCancel(false)
             .setOngoing(true)
             .setWhen(if (type == NOTIFICATION_TYPE_CURRENT) end else start)
             .setColor(context.getCompatColor(R.color.colorPrimary))
             .setSmallIcon(R.drawable.ic_main_timetable)
-            .setStyle(NotificationCompat.BigTextStyle().bigText("Sala $room, od ${start.toLocalDateTime()} do ${end.toLocalDateTime()}"))
             .build()
         )
     }

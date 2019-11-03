@@ -99,6 +99,8 @@
     <string name="timetable_time">Godziny</string>
     <string name="timetable_changes">Zmiany</string>
     <string name="timetable_no_items">Brak lekcji w tym dniu</string>
+    <string name="timetable_now">Teraz</string>
+    <string name="timetable_next">Za chwilę</string>
 
 
     <!--CompletedLesson-->
