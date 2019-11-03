@@ -10,10 +10,12 @@ import io.github.wulkanowy.api.Api
 import io.github.wulkanowy.data.db.AppDatabase
 import io.github.wulkanowy.data.db.entities.Semester
 import io.github.wulkanowy.data.repositories.TestInternetObservingStrategy
+import io.github.wulkanowy.services.alarm.AlarmHelper
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.SpyK
+import io.mockk.mockk
 import io.reactivex.Single
 import org.junit.After
 import org.junit.Before
@@ -37,6 +39,9 @@ class TimetableRepositoryTest {
     @MockK
     private lateinit var semesterMock: Semester
 
+    @MockK
+    private lateinit var alarmHelper: AlarmHelper
+
     private lateinit var timetableRemote: TimetableRemote
 
     private lateinit var timetableLocal: TimetableLocal
@@ -50,6 +55,8 @@ class TimetableRepositoryTest {
         timetableLocal = TimetableLocal(testDb.timetableDao)
         timetableRemote = TimetableRemote(mockApi)
 
+        every { alarmHelper.scheduleNotifications(any(), any()) } returns mockk()
+        every { alarmHelper.cancelNotifications(any(), any()) } returns mockk()
         every { semesterMock.studentId } returns 1
         every { semesterMock.diaryId } returns 2
     }
@@ -75,7 +82,7 @@ class TimetableRepositoryTest {
             createTimetableRemote(4, of(2019, 3, 5, 10, 30), "", "W-F")
         ))
 
-        val lessons = TimetableRepository(settings, timetableLocal, timetableRemote)
+        val lessons = TimetableRepository(settings, timetableLocal, timetableRemote, alarmHelper)
             .getTimetable(semesterMock, LocalDate.of(2019, 3, 5), LocalDate.of(2019, 3, 5), true)
             .blockingGet()
 
@@ -101,7 +108,7 @@ class TimetableRepositoryTest {
             createTimetableRemote(4, of(2019, 3, 5, 10, 30), "", "W-F", "Paweł Jumper", false)
         ))
 
-        val lessons = TimetableRepository(settings, timetableLocal, timetableRemote)
+        val lessons = TimetableRepository(settings, timetableLocal, timetableRemote, alarmHelper)
             .getTimetable(semesterMock, LocalDate.of(2019, 3, 5), LocalDate.of(2019, 3, 5), true)
             .blockingGet()
 
