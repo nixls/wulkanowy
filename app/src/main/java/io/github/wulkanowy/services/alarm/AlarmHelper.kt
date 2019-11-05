@@ -43,7 +43,7 @@ class AlarmHelper @Inject constructor(
         if (!preferencesRepository.isUpcomingLessonsNotificationsEnable) return cancelNotifications(lessons, studentId)
 
         Timber.d("${lessons.size} to schedule, current millis: ${now().toTimestamp()}")
-        lessons.groupBy { it.date }.map { week -> week.value.sortedBy { it.date } }.map { day ->
+        lessons.groupBy { it.date }.map { week -> week.value.sortedBy { it.date } }.map { it.filter { lesson -> !lesson.canceled } }.map { day ->
             val numberOfLessons = day.size
             day.forEachIndexed { index, lesson ->
                 val intent = with(Intent(context, AlarmBroadcastReceiver::class.java)) {
@@ -62,6 +62,10 @@ class AlarmHelper @Inject constructor(
         }
 
         Timber.d("Timetable notifications scheduled")
+
+        val canceledLessons = lessons.filter { it.canceled }
+        Timber.d("${canceledLessons.size} to de-schedule")
+        cancelNotifications(canceledLessons, studentId)
     }
 
     private fun scheduleUpcoming(lesson: Timetable, previous: Timetable?, intent: Intent, studentId: Int) {
