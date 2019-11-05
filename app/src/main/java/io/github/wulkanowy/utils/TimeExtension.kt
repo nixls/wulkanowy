@@ -10,6 +10,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.Month
 import org.threeten.bp.ZoneId
+import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter.ofPattern
 import org.threeten.bp.format.TextStyle.FULL_STANDALONE
 import org.threeten.bp.temporal.TemporalAdjusters.firstInMonth
@@ -28,7 +29,7 @@ fun String.toLocalDate(format: String = DATE_PATTERN): LocalDate = LocalDate.par
 
 fun Long.toLocalDateTime(): LocalDateTime = ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
-fun LocalDateTime.toTimestamp() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+fun LocalDateTime.toTimestamp() = atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toInstant().toEpochMilli()
 
 fun LocalDate.toFormattedString(format: String = DATE_PATTERN): String = format(ofPattern(format))
 
