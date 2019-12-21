@@ -216,6 +216,7 @@
 
     <!--School-->
     <string name="school_title">School</string>
+    <string name="school_no_info">No info about school</string>
     <string name="school_name">School name</string>
     <string name="school_address">School address</string>
     <string name="school_telephone">Telephone</string>
@@ -242,8 +243,10 @@
     <string name="about_version">App version</string>
     <string name="about_feedback">Report a bug</string>
     <string name="about_feedback_summary">Send a bug report via e-mail</string>
+    <string name="about_faq">FAQ</string>
+    <string name="about_faq_summary">Read Frequently Asked Questions</string>
     <string name="about_discord">Discord server</string>
-    <string name="about_discord_summary">Join the wulkanowy community</string>
+    <string name="about_discord_summary">Join the Wulkanowy community</string>
     <string name="about_privacy">Privacy policy</string>
     <string name="about_privacy_summary">Rules for collecting personal data</string>
     <string name="about_homepage">Homepage</string>
@@ -258,6 +261,7 @@
 
     <!--Generic-->
     <string name="all_content">Content</string>
+    <string name="all_retry">Retry</string>
     <string name="all_description">Description</string>
     <string name="all_no_description">No description</string>
     <string name="all_teacher">Teacher</string>
